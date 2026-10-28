@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- ElevenLabs Conversational AI Widget SDK -->
+  <script src="https://elevenlabs.io/convai-widget/index.js" async></script>
+  <title>Plataforma IA Académico | Cátedra Mtro. Luis Tercero Martínez</title>
+  
+  <!-- SEO & Metadatos -->
+  <meta name="description" content="Plataforma académica interactiva de Inteligencia Artificial para Licenciaturas, Especialidades, Maestrías y Doctorados. Catedrático: Mtro. Luis Ramón Tercero Martínez González.">
+  <meta name="author" content="Mtro. Luis Ramón Tercero Martínez González">
+  
+  <!-- Tipografía Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Estilos Principales -->
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+  <!-- NAVEGACIÓN SUPERIOR ELEGANTE -->
+  <nav class="navbar">
+    <div class="brand" onclick="switchView('inicio')">
+      <div class="brand-badge">IA</div>
+      <div class="brand-info">
+        <h1>Plataforma IA Académico</h1>
+        <span>Cátedra Mtro. Luis Tercero Martínez</span>
+      </div>
+    </div>
+
+    <!-- Enlaces directos esenciales (no saturados) -->
+    <ul class="nav-quick-links">
+      <li>
+        <button class="nav-quick-btn active" data-target="inicio">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Inicio
+        </button>
+      </li>
+      <li>
+        <button class="nav-quick-btn" data-target="materias">
+          Materias
+        </button>
+      </li>
+      <li>
+        <button class="nav-quick-btn" data-target="conceptos">
+          Conceptos IA 🎙️
+        </button>
+      </li>
+      <li>
+        <button class="nav-quick-btn" data-target="agentes">
+          Agentes IA
+        </button>
+      </li>
+      <li>
+        <button class="nav-quick-btn" data-target="etica">
+          Ética & Gobernanza
+        </button>
+      </li>
+      <li>
+        <button class="nav-quick-btn" data-target="papers">
+          Artículos
+        </button>
+      </li>
+    </ul>
+
+    <!-- Acciones y Botón Maestro de Menú -->
+    <div class="nav-actions">
+      <!-- Botón Desplegable de Menú Completo -->
+      <button class="btn-menu-trigger" id="btn-menu-trigger" title="Abrir todas las pestañas y módulos">
+        <div class="burger-icon">
+          <div class="burger-line"></div>
+          <div class="burger-line"></div>
+          <div class="burger-line"></div>
+        </div>
+        <span>Menú del Campus</span>
+      </button>
+
+      <button class="btn-open-keys" id="btn-open-config" title="Configurar API Keys de OpenAI o ElevenLabs">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        IA Keys
+      </button>
+    </div>
+  </nav>
+
+  <!-- MODAL MEGA-MENÚ DESPLEGABLE (Elegante y Organizado) -->
+  <div class="mega-menu-overlay" id="mega-menu-modal">
+    <div class="mega-menu-panel">
+      <div class="mega-menu-header">
+        <div>
+          <h3 class="mega-menu-title">Directorio del Campus & Cátedra</h3>
+          <p style="color:var(--text-muted); font-size:0.88rem; margin-top:0.25rem;">Selecciona cualquiera de las pestañas académicas para navegar instantáneamente:</p>
+        </div>
+        <button class="btn-close-mega" id="btn-close-mega">&times;</button>
+      </div>
+
+      <div class="mega-grid">
+        <!-- 1. Inicio -->
+        <div class="mega-card-item" data-target="inicio">
+          <div class="mega-card-top">
+            <span class="mega-item-icon">🏛️</span>
+            <span class="mega-item-badge" style="background:rgba(56,189,248,0.15); color:#38bdf8;">Portal Principal</span>
+          </div>
+          <h4>Inicio / Cátedra</h4>
+          <p>Visión académica, credenciales del catedrático y métricas del campus digital.</p>
+        </div>
+
+        <!-- 2. Materias -->
+        <div class="mega-card-item featured-highlight" data-target="materias">
+          <div class="mega-card-top">
+            <span class="mega-item-icon">🎓</span>
+            <span class="mega-item-badge" style="background:#ec4899; color:#fff;">Lic • Esp • Mae • Doc</span>
+          </div>
+          <h4>Materias & Cátedras</h4>
+          <p>Programas clasificados con simuladores interactivos de IA activa en tiempo real.</p>
+        </div>
+
+        <!-- 3. Conceptos IA (Nueva) -->
+        <div class="mega-card-item featured-highlight" data-target="conceptos">
+          <div class="mega-card-top">
+            <span class="mega-item-icon">🎙️</span>
+            <span class="mega-item-badge" style="background:#ec4899; color:#fff;">Voz Femenina • 3 Niveles</span>
+          </div>
+          <h4>Conceptos de IA</h4>
+          <p>Glosario interactivo (Básicos, Intermedios y Avanzados) con lectura en voz de mujer en tiempo real.</p>
+        </div>
+
+        <!-- 4. Ética y Gobernanza -->
+        <div class="mega-card-item featured-highlight" data-target="etica">
+          <div class="mega-card-top">
+            <span class="mega-item-icon">⚖️</span>
+            <span class="mega-item-badge" style="background:rgba(239,68,68,0.2); color:#f87171;">ISO 42001 & Jailbreaking</span>
+          </div>
+          <h4>Ética, Seguridad y Gobernanza</h4>
+          <p>Jailbreaking de IA, Red Teaming, mitigación de riesgos, seguridad de agentes e ISO 42001.</p>
+        </div>
+
+        <!-- 4. Talleres -->
+        <div class="mega-card-item" data-target="talleres">
+          <div class="mega-card-top">
+            <span class="mega-item-icon">🛠️</span>
+            <span class="mega-item-badge" style="background:rgba(245,158,11,0.2); color:#fbbf24;">Hands-on</span>
+          </div>
+          <h4>Talleres Prácticos</h4>
+          <p>Sesiones intensivas de programación, orquestación de agentes y desarrollo de código.</p>
+        </div>
+
+        <!-- 5. Cursos -->
+        <div class="mega-card-item" data-target="cursos">
+          <div class="mega-card-top">
+            <span class="mega-item-icon">📖</span>
+            <span class="mega-item-badge" style="background:rgba(59,130,246,0.2); color:#60a5fa;">Rutas Abiertas</span>
+          </div>
+          <h4>Cursos Especializados</h4>
+          <p>Módulos de autoaprendizaje estructurados con evaluaciones continuas.</p>
+        </div>
+
+        <!-- 6. Recursos Digitales -->
+        <div class="mega-card-item" data-target="notebooklm">
+          <div class="mega-card-top">
+            <span class="mega-item-icon">🎙️</span>
+            <span class="mega-item-badge" style="background:rgba(168,85,247,0.2); color:#c084fc;">NotebookLM</span>
+          </div>
+          <h4>Recursos Digitales Hub</h4>
+          <p>Audio Overviews conversacionales, mapas conceptuales y guías de estudio descargables.</p>
+        </div>
+
+        <!-- 7. Agentes de IA -->
+        <div class="mega-card-item featured-highlight" data-target="agentes">
+          <div class="mega-card-top">
+            <span class="mega-item-icon">🤖</span>
+            <span class="mega-item-badge" style="background:linear-gradient(135deg,#ec4899,#8b5cf6); color:#fff;">ElevenLabs & OpenAI</span>
+          </div>
+          <h4>Agentes de IA (Voz & Texto)</h4>
+          <p>Laboratorio interactivo de conversación por micrófono y tutor académico inteligente.</p>
+        </div>
+
+        <!-- 8. Artículos Científicos -->
+        <div class="mega-card-item" data-target="papers">
+          <div class="mega-card-top">
+            <span class="mega-item-icon">📑</span>
+            <span class="mega-item-badge" style="background:rgba(16,185,129,0.2); color:#34d399;">3 Bloques Temáticos</span>
+          </div>
+          <h4>Artículos Científicos</h4>
+          <p>Publicaciones clasificadas: Tesis del Maestro, IA en Salud y Finanzas/Contaduría.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="container">
+
+    <!-- ================= SECCIÓN 1: INICIO / LANDING ================= -->
+    <section id="view-inicio" class="view-section active">
+      <div class="hero">
+        <div class="hero-left">
+          <div class="hero-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            Entorno Académico Abierto • IA & Ciencia de Datos
+          </div>
+          <h2>Formando a la siguiente generación con <span class="gradient-text">Inteligencia Artificial de Vanguardia</span></h2>
+          <p>
+            Bienvenido al portal académico interactivo del <strong>Mtro. Luis Ramón Tercero Martínez González</strong>. Aquí integramos modelos de lenguaje, agentes conversacionales, simuladores clínicos y auditoría predictiva para transformar los planes de estudio en experiencias educativas vivas y de vanguardia mundial.
+          </p>
+          <div class="hero-actions">
+            <button class="btn-primary" onclick="switchView('materias')">
+              Explorar Materias con IA
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+            <button class="btn-secondary" onclick="switchView('agentes')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              Interactuar con Agentes
+            </button>
+          </div>
+        </div>
+
+        <!-- Tarjeta de Perfil Docente -->
+        <div class="profile-card">
+          <div class="profile-header">
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" style="display:flex; align-items:center; justify-content:center; font-size:2rem; color:#fff; background:linear-gradient(135deg, #0284c7, #831843);">
+                LT
+              </div>
+              <div class="status-dot" title="Docente en línea para consultas"></div>
+            </div>
+            <div class="profile-meta">
+              <h3>Mtro. Luis Ramón Tercero</h3>
+              <p>Mtro. en Ciencias de la Computación • Doctorando en IA</p>
+            </div>
+          </div>
+
+          <div class="credentials-list">
+            <div class="cred-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>UJAT:</strong> Titulado con Tesis en Maestría en Ciencias de la Computación (IA & Datos).</span>
+            </div>
+            <div class="cred-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Tesis Doctoral en IA (2026-2029):</strong> Agentes de IA con MoE (Mixture of Experts) & Multiagentes para Seguimiento Farmacoterapéutico en Tabasco, México.</span>
+            </div>
+            <div class="cred-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Especialidad Actual:</strong> Agentes de Voz (ElevenLabs), Texto y Multimodales con n8n, LangChain, LangGraph, LangGraph-Swarm, LangSmith y Langflow.</span>
+            </div>
+            <div class="cred-item">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Fundador FTF AI Factory:</strong> Clara IA, Simulador de Pacientes Virtuales • AWS AI & ISO 42001.</span>
+            </div>
+          </div>
+
+          <div class="profile-badges">
+            <span class="p-pill">MoE (Mixture of Experts)</span>
+            <span class="p-pill">LangGraph-Swarm</span>
+            <span class="p-pill">LangSmith</span>
+            <span class="p-pill">n8n Automation</span>
+            <span class="p-pill">ElevenLabs Voice</span>
+            <span class="p-pill">LangChain & Langflow</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Métricas del Campus en 4 Columnas Horizontales Equilibradas -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon cyan">🎓</div>
+          <div class="stat-details">
+            <div class="num">5</div>
+            <div class="label">Asignaturas de Alto Nivel</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">🤖</div>
+          <div class="stat-details">
+            <div class="num">2</div>
+            <div class="label">Agentes de IA Integrados</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon emerald">🎙️</div>
+          <div class="stat-details">
+            <div class="num">100%</div>
+            <div class="label">Recursos con NotebookLM</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon wine">📚</div>
+          <div class="stat-details">
+            <div class="num">4</div>
+            <div class="label">Publicaciones Científicas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BLOQUE DE HERRAMIENTAS Y TECNOLOGÍAS DEL PROFESOR (HORIZONTAL & BALANCEADO) -->
+      <div class="tech-stack-section">
+        <span class="section-tag">Ecosistema & Herramientas Aplicadas en Clase</span>
+        <h3 style="font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem;">Tecnologías de Vanguardia que Dominarán los Estudiantes</h3>
+        <p style="color: var(--text-muted); max-width: 800px; margin: 0 auto; font-size: 0.95rem;">
+          En cada asignatura, taller y proyecto de posgrado, el <strong>Mtro. Luis Tercero Martínez</strong> entrena a los estudiantes con las herramientas industriales y de investigación que demanda el mercado tecnológico global:
+        </p>
+
+        <div class="tech-grid">
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">⚡</span>
+            <span class="tech-name">n8n</span>
+            <span class="tech-role">Automatización de Flujos</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🟣</span>
+            <span class="tech-name">Make (Integromat)</span>
+            <span class="tech-role">Integración de Webhooks</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🎙️</span>
+            <span class="tech-name">ElevenLabs</span>
+            <span class="tech-role">Agentes de Voz en Tiempo Real</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🧠</span>
+            <span class="tech-name">OpenAI API</span>
+            <span class="tech-role">GPT-4o & Assistants API</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">💎</span>
+            <span class="tech-name">Google Gemini & Gems</span>
+            <span class="tech-role">Modelos Multimodales</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🤗</span>
+            <span class="tech-name">Hugging Face</span>
+            <span class="tech-role">Transformers & Open Weights</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">👥</span>
+            <span class="tech-name">CrewAI</span>
+            <span class="tech-role">Sistemas Multi-Rol</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🦜🔗</span>
+            <span class="tech-name">LangChain</span>
+            <span class="tech-role">Framework de Orquestación</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🕸️</span>
+            <span class="tech-name">LangGraph</span>
+            <span class="tech-role">Grafos Cíclicos y Estados</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🐝</span>
+            <span class="tech-name">LangGraph-Swarm</span>
+            <span class="tech-role">Enjambres de Agentes Autónomos</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">📊</span>
+            <span class="tech-name">LangSmith</span>
+            <span class="tech-role">Observabilidad, Trazabilidad & Tests</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🎛️</span>
+            <span class="tech-name">Langflow</span>
+            <span class="tech-role">Diseño Visual de Pipelines RAG</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🐍</span>
+            <span class="tech-name">Python</span>
+            <span class="tech-role">Lenguaje Principal de IA</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">📦</span>
+            <span class="tech-name">Librerías de Automatización</span>
+            <span class="tech-role">FastAPI, PyTorch, Pandas</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🗄️</span>
+            <span class="tech-name">SQL</span>
+            <span class="tech-role">Consultas & Modelado Relacional</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">⚡🔋</span>
+            <span class="tech-name">Supabase</span>
+            <span class="tech-role">Base de Datos Vectorial (pgvector) & RAG</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🕸️📊</span>
+            <span class="tech-name">Neo4j</span>
+            <span class="tech-role">Grafos de Conocimiento (GraphRAG)</span>
+          </div>
+
+          <div class="tech-badge-card">
+            <span class="tech-icon-img">🔌</span>
+            <span class="tech-name">Uso de APIs REST & Webhooks</span>
+            <span class="tech-role">Conectividad Empresarial Segura</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECCIÓN 2: MATERIAS & CÁTEDRAS ================= -->
+    <section id="view-materias" class="view-section">
+      <div class="section-header">
+        <span class="section-tag">Oferta Académica de Vanguardia</span>
+        <h2 class="section-title">Asignaturas & Cátedras Especializadas</h2>
+        <p class="section-subtitle">
+          Programas adaptados con laboratorios interactivos de Inteligencia Artificial para que cada clase despierte el asombro y la competencia profesional de los alumnos.
+        </p>
+
+        <!-- Filtros por Categoría -->
+        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top: 1.5rem;">
+          <button class="filter-pill active" onclick="filterCategory('todos', this)" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:#fff; padding:0.4rem 1rem; border-radius:9999px; cursor:pointer;">Todas</button>
+          <button class="filter-pill" onclick="filterCategory('licenciaturas', this)" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:#fff; padding:0.4rem 1rem; border-radius:9999px; cursor:pointer;">Licenciaturas</button>
+          <button class="filter-pill" onclick="filterCategory('especialidades', this)" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:#fff; padding:0.4rem 1rem; border-radius:9999px; cursor:pointer;">Especialidades</button>
+          <button class="filter-pill" onclick="filterCategory('maestrias', this)" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:#fff; padding:0.4rem 1rem; border-radius:9999px; cursor:pointer;">Maestrías</button>
+          <button class="filter-pill" onclick="filterCategory('doctorados', this)" style="background:rgba(255,255,255,0.06); border:1px solid var(--border-subtle); color:#fff; padding:0.4rem 1rem; border-radius:9999px; cursor:pointer;">Doctorados</button>
+        </div>
+      </div>
+
+      <!-- Grid de Programas -->
+      <div class="cards-grid" id="programs-container">
+        <!-- Inyectado vía JavaScript -->
+      </div>
+    </section>
+
+    <!-- ================= SECCIÓN 3: TALLERES ================= -->
+    <section id="view-talleres" class="view-section">
+      <div class="section-header">
+        <span class="section-tag">Formación Práctica</span>
+        <h2 class="section-title">Talleres Hands-on de IA</h2>
+        <p class="section-subtitle">
+          Sesiones intensivas enfocadas en desarrollo de código, orquestación de agentes y aplicación directa en empresas y clínicas.
+        </p>
+      </div>
+      <div class="cards-grid" id="workshops-container">
+        <!-- Inyectado vía JS -->
+      </div>
+    </section>
+
+    <!-- ================= SECCIÓN 4: CURSOS ================= -->
+    <section id="view-cursos" class="view-section">
+      <div class="section-header">
+        <span class="section-tag">Rutas de Especialización</span>
+        <h2 class="section-title">Cursos Abiertos Autogestionados</h2>
+        <p class="section-subtitle">
+          Módulos estructurados con seguimiento académico, material didáctico y evaluaciones inteligentes.
+        </p>
+      </div>
+      <div class="cards-grid" id="courses-container">
+        <!-- Inyectado vía JS -->
+      </div>
+    </section>
+
+    <!-- ================= SECCIÓN 5: RECURSOS DIGITALES (NOTEBOOKLM) ================= -->
+    <section id="view-notebooklm" class="view-section">
+      <div class="section-header">
+        <span class="section-tag">Google NotebookLM Hub</span>
+        <h2 class="section-title">Cuadernos Inteligentes & Audio Overviews</h2>
+        <p class="section-subtitle">
+          Recursos de audio y síntesis conceptual generados con NotebookLM para cada materia. Escucha resúmenes en formato podcast y accede a las guías de estudio.
+        </p>
+      </div>
+      <div class="notebook-grid" id="notebooks-container">
+        <!-- Inyectado vía JS -->
+      </div>
+    </section>
+
+    <!-- ================= SECCIÓN 6: AGENTES DE IA ================= -->
+    <section id="view-agentes" class="view-section">
+      <div class="section-header">
+        <span class="section-tag">Ecosistema Interactivo</span>
+        <h2 class="section-title">Laboratorio de Agentes de Voz & Texto</h2>
+        <p class="section-subtitle">
+          Interactúa en tiempo real con agentes de inteligencia artificial diseñados para acompañar tu formación académica.
+        </p>
+      </div>
+
+      <div class="agents-split">
+        <!-- Consola de Agente de Voz (ElevenLabs) -->
+        <div class="agent-console">
+          <div class="agent-console-header">
+            <div class="agent-icon" style="background: rgba(6, 182, 212, 0.15); color: var(--brand-cyan);">🎙️</div>
+            <div>
+              <h3 style="font-size: 1.2rem; font-weight:700;">Agente de Voz Conversacional</h3>
+              <p style="font-size: 0.85rem; color: var(--text-dim);">Tecnología ElevenLabs & Web Speech API</p>
+            </div>
+          </div>
+
+          <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+            Presiona el botón para dialogar con el asistente vocal del curso. Puedes consultar dudas sobre planes de estudio, fechas de exámenes y conceptos clave de IA en salud o finanzas.
+          </p>
+
+          <div class="voice-wave" id="voice-wave-anim">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+
+          <div style="background: #090e17; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 1rem; min-height: 85px; margin-bottom: 1.25rem; font-size: 0.88rem; color: #cbd5e1;" id="voice-transcript-text">
+            Presiona 'Hablar con el Asistente' para iniciar la interacción por micrófono...
+          </div>
+
+          <button class="btn-primary" id="btn-voice-toggle" style="width: 100%; justify-content: center;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+            Hablar con el Asistente de Voz
+          </button>
+        </div>
+
+        <!-- Consola de Agente de Texto (OpenAI) -->
+        <div class="agent-console">
+          <div class="agent-console-header">
+            <div class="agent-icon" style="background: rgba(139, 92, 246, 0.15); color: #a78bfa;">💬</div>
+            <div>
+              <h3 style="font-size: 1.2rem; font-weight:700;">Tutor Académico Inteligente</h3>
+              <p style="font-size: 0.85rem; color: var(--text-dim);">OpenAI GPT-4o-mini & Base de Conocimiento</p>
+            </div>
+          </div>
+
+          <!-- Caja de Mensajes -->
+          <div class="chat-box" id="chat-messages-container">
+            <div class="chat-msg bot">
+              <div class="chat-structured-card">
+                <div class="chat-card-meta">
+                  <span class="chat-badge-tutor"><span class="live-dot-green"></span> Tutor Académico IA</span>
+                  <span class="chat-badge-model">GPT-4o-mini &bull; Mtro. Luis Tercero</span>
+                </div>
+                <div class="chat-card-content">
+                  <p class="chat-paragraph">¡Hola! Te doy la bienvenida a la plataforma de la cátedra de Inteligencia Artificial del <strong>Mtro. Luis Ramón Tercero Martínez González</strong>. Como tutor académico inteligente, puedo orientarte en:</p>
+                  <ol class="chat-ordered-list">
+                    <li class="chat-list-item">
+                      <span class="chat-item-num">1</span>
+                      <div class="chat-item-text"><strong class="chat-accent">Licenciatura en Contaduría y Finanzas</strong>: Conciliación masiva, predicción de liquidez y modelos GatedTabTransformer.</div>
+                    </li>
+                    <li class="chat-list-item">
+                      <span class="chat-item-num">2</span>
+                      <div class="chat-item-text"><strong class="chat-accent">Especialidad de IA en Enfermería</strong>: Automatización del PAE con Clara IA y modelos NLP de notas clínicas.</div>
+                    </li>
+                    <li class="chat-list-item">
+                      <span class="chat-item-num">3</span>
+                      <div class="chat-item-text"><strong class="chat-accent">Maestría en Administración Hospitalaria</strong>: Triaje predictivo, optimización de quirófanos y camas.</div>
+                    </li>
+                    <li class="chat-list-item">
+                      <span class="chat-item-num">4</span>
+                      <div class="chat-item-text"><strong class="chat-accent">Investigación Doctoral</strong>: Redes Transformers aplicadas a nefropatía y arquitecturas MoE (Mixture of Experts).</div>
+                  </ol>
+                  <p class="chat-paragraph" style="margin-top:0.65rem; color:#94a3b8; font-size:0.85rem;">💡 <em>Recomendación: Escribe tu consulta abajo o haz una pregunta por voz.</em></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Barra de Entrada -->
+          <div class="chat-input-bar">
+            <input type="text" class="chat-input" id="chat-text-input" placeholder="Escribe tu duda sobre las materias de IA..." autocomplete="off">
+            <button class="btn-primary" id="btn-send-chat" style="padding: 0.75rem 1.25rem;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECCIÓN 7: CONCEPTOS DE IA (CON LECTURA EN VOZ FEMENINA) ================= -->
+    <section id="view-conceptos" class="view-section">
+      <div class="section-header">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+          <div>
+            <span class="section-tag">Glosario Interactivo • Cátedra Mtro. Luis Tercero Martínez</span>
+            <h2 class="section-title">Conceptos Fundamentales y Avanzados de IA</h2>
+            <p class="section-subtitle">
+              Investigación profunda estructurada en 3 niveles de dominio (<strong>Básicos, Intermedios y Avanzados</strong>). Haz clic en cualquier tarjeta para que una <strong>voz de mujer</strong> te explique el concepto en tiempo real.
+            </p>
+          </div>
+          <div style="display:flex; align-items:center; gap:0.5rem; background:rgba(236,72,153,0.12); border:1px solid rgba(236,72,153,0.3); padding:0.6rem 1.1rem; border-radius:9999px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f472b6" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+            <span style="font-size:0.85rem; font-weight:700; color:#f472b6;">Voz Femenina SOTA Activa</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="concepts-container">
+        <!-- Inyectado vía JS en Bloques: Básicos, Intermedios y Avanzados -->
+      </div>
+    </section>
+
+    <!-- ================= SECCIÓN 8: ÉTICA, SEGURIDAD Y GOBERNANZA DE LA IA ================= -->
+    <section id="view-etica" class="view-section">
+      <div class="section-header">
+        <span class="section-tag">Marcos Regulatorios, Ciberseguridad & Jailbreaking</span>
+        <h2 class="section-title">Ética, Seguridad y Gobernanza de la Inteligencia Artificial</h2>
+        <p class="section-subtitle">
+          Especialización técnica y normativa impartida por el <strong>Mtro. Luis Tercero Martínez</strong> en alineación con el estándar internacional <strong>ISO 42001</strong>, metodologías de <strong>Jailbreaking de IA</strong>, auditoría de vulnerabilidades y seguridad estricta en agentes autónomos.
+        </p>
+      </div>
+
+      <div class="ethics-grid">
+        <!-- Tarjeta 1: Jailbreaking IA & Ataques Adversarios (Nueva) -->
+        <div class="ethics-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+            <span class="card-badge" style="background:rgba(239,68,68,0.15); color:#f87171;">Seguridad Ofensiva & Red Teaming</span>
+            <small style="color:var(--text-dim); font-weight:600;">Defensa Contra Exploits</small>
+          </div>
+          <h3>Jailbreaking de IA, Ataques Adversarios & Evasión</h3>
+          <p>
+            Estudio técnico y mitigación de técnicas de <strong>Jailbreaking</strong> (ataques Many-Shot, ofuscación de tokens, roleplay bypass, inyecciones de prompts indirectas y técnicas *DAN/Grandma exploit*). Los estudiantes aprenden a auditar modelos de lenguaje y sistemas multiagente para identificar fugas de instrucciones de sistema (*system prompt leakage*) y desalineación intencional de políticas de seguridad.
+          </p>
+          <div style="background:#090e17; border-left:3px solid #ef4444; padding:0.85rem; border-radius:4px; margin-bottom:1.25rem; font-size:0.85rem; color:#cbd5e1;">
+            <strong>Metodología de Cátedra:</strong> Laboratorio de Red Teaming ético donde los alumnos diseñan barreras semánticas (*Guardrails*) y pruebas de penetración antes de poner un agente en producción.
+          </div>
+          <div class="profile-badges">
+            <span class="p-pill">Jailbreak Mitigation</span>
+            <span class="p-pill">Prompt Injection Defense</span>
+            <span class="p-pill">Red Teaming</span>
+            <span class="p-pill">Llama Guard & NeMo</span>
+            <span class="p-pill">System Prompt Hardening</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Norma ISO 42001 -->
+        <div class="ethics-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+            <span class="card-badge" style="background:rgba(16,185,129,0.15); color:#34d399;">Certificación & Cumplimiento</span>
+            <small style="color:var(--text-dim); font-weight:600;">Estándar Global</small>
+          </div>
+          <h3>Gobernanza y Mitigación de Riesgos (ISO/IEC 42001)</h3>
+          <p>
+            Formación especializada en el primer estándar certificable del mundo para Sistemas de Gestión de Inteligencia Artificial (AIMS). Implementación de directrices de transparencia, explicabilidad algorítmica, trazabilidad de decisiones automatizadas y mitigación del sesgo en sectores regulados (salud y finanzas).
+          </p>
+          <div style="background:#090e17; border-left:3px solid #10b981; padding:0.85rem; border-radius:4px; margin-bottom:1.25rem; font-size:0.85rem; color:#cbd5e1;">
+            <strong>Garantía Académica:</strong> Evaluación de sistemas con telemetría de auditoría mediante <em>LangSmith</em> y políticas de contención contra alucinaciones.
+          </div>
+          <div class="profile-badges">
+            <span class="p-pill">ISO/IEC 42001</span>
+            <span class="p-pill">Auditoría AIMS</span>
+            <span class="p-pill">Mitigación de Sesgos</span>
+            <span class="p-pill">Garantía de Privacidad</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Seguridad en Agentes y Red Teaming -->
+        <div class="ethics-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+            <span class="card-badge" style="background:rgba(236,72,153,0.15); color:#f472b6;">Ciberseguridad en IA</span>
+            <small style="color:var(--text-dim); font-weight:600;">Defensa Activa</small>
+          </div>
+          <h3>Seguridad en Agentes Autónomos & Red Teaming</h3>
+          <p>
+            Metodologías de defensa contra inyecciones de prompts indirectas (Prompt Injection), fugas de datos confidenciales y desalineación de agentes multi-perfil orquestados con <em>LangGraph</em> y flujos de <em>n8n</em>. Técnicas de sandboxing y control humano en el bucle (Human-in-the-Loop).
+          </p>
+          <div class="profile-badges">
+            <span class="p-pill">Human-in-the-Loop</span>
+            <span class="p-pill">Guardrails NeMo</span>
+            <span class="p-pill">Anti-Prompt Injection</span>
+            <span class="p-pill">Sandboxing de Agentes</span>
+          </div>
+        </div>
+
+        <!-- Tarjeta 4: Ética en Salud y Farmacoterapéutica -->
+        <div class="ethics-card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+            <span class="card-badge" style="background:rgba(245,158,11,0.15); color:#fbbf24;">Bioética Digital</span>
+            <small style="color:var(--text-dim); font-weight:600;">Sector Clínico</small>
+          </div>
+          <h3>Bioética Computacional & Confidencialidad del Paciente</h3>
+          <p>
+            Preservación del secreto profesional y privacidad diferencial en el despliegue de asistentes clínicos (como el proyecto <em>AlicIA Pharmaceutical</em> y <em>Clara IA</em>). Garantía de operación offline en hardware estándar para proteger expedientes clínicos en comunidades y hospitales de Tabasco.
+          </p>
+          <div class="profile-badges">
+            <span class="p-pill">Privacidad Diferencial</span>
+            <span class="p-pill">Bioética Clínica</span>
+            <span class="p-pill">Edge AI Seguro</span>
+            <span class="p-pill">NOM-004-SSA3</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECCIÓN 8: ARTÍCULOS CIENTÍFICOS ================= -->
+    <section id="view-papers" class="view-section">
+      <div class="section-header">
+        <span class="section-tag">Producción Científica & Ponencias</span>
+        <h2 class="section-title">Artículos de Investigación del Catedrático</h2>
+        <p class="section-subtitle">
+          Publicaciones científicas internacionales y ponencias clasificadas en 3 bloques temáticos: Tesis del Maestro, Aplicación en Salud y Contaduría/Finanzas.
+        </p>
+      </div>
+      <div id="papers-container">
+        <!-- Inyectado vía JS en Bloque 1, Bloque 2 y Bloque 3 -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL DE LABORATORIO / SIMULADOR -->
+  <div class="modal-overlay" id="lab-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-lab-title">Laboratorio Interactivo de IA</h3>
+        <button class="btn-close-modal">&times;</button>
+      </div>
+      <div class="modal-content-area" id="modal-lab-body">
+        <!-- Contenido dinámico del simulador -->
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL DE CONFIGURACIÓN DE APIS -->
+  <div class="modal-overlay" id="config-modal">
+    <div class="modal-box" style="max-width: 550px;">
+      <div class="modal-header">
+        <h3>Configuración de Servicios de IA</h3>
+        <button class="btn-close-modal" id="btn-close-config">&times;</button>
+      </div>
+      <div class="modal-content-area">
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+          Para demostraciones en vivo durante tu entrevista, puedes ingresar tus credenciales. Las llaves se guardan <strong>únicamente en tu navegador local (localStorage)</strong> y nunca se envían a ningún servidor externo.
+        </p>
+
+        <div style="margin-bottom: 1rem;">
+          <label style="display:block; font-size: 0.85rem; color: #fff; margin-bottom: 0.35rem; font-weight:600;">OpenAI API Key (para Tutor GPT):</label>
+          <input type="password" id="cfg-openai-key" style="width:100%; background:#090e17; border:1px solid var(--border-subtle); border-radius:6px; padding:0.6rem; color:#fff;" placeholder="sk-...">
+          <small style="color: var(--text-dim); font-size: 0.75rem;">Si se deja en blanco, la plataforma utilizará el motor de respuestas inteligentes precargadas.</small>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display:block; font-size: 0.85rem; color: #fff; margin-bottom: 0.35rem; font-weight:600;">ElevenLabs Agent ID (Opcional):</label>
+          <input type="text" id="cfg-eleven-agent" style="width:100%; background:#090e17; border:1px solid var(--border-subtle); border-radius:6px; padding:0.6rem; color:#fff;" placeholder="ID de agente conversacional ElevenLabs...">
+          <small style="color: var(--text-dim); font-size: 0.75rem;">Si no se especifica, se activará el sintetizador nativo multimodal con Web Speech.</small>
+        </div>
+
+        <button class="btn-primary" id="btn-save-keys" style="width:100%; justify-content:center;">
+          Guardar Configuración
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================================================================ -->
+  <!-- WIDGET GLOBAL DE VOZ DE LA PLATAFORMA - Persiste en todas las vistas -->
+  <!-- ================================================================ -->
+  <div class="global-voice-widget" id="global-voice-widget-root">
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- PANEL ARIA — ElevenLabs Voz Nativa Pura        -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="voice-floating-panel eleven-panel aria-call-panel" id="eleven-voice-panel">
+      <!-- Header mínimo -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+        <div style="display:flex; align-items:center; gap:0.5rem;">
+          <span style="font-size:0.72rem; background:linear-gradient(90deg,#7c3aed,#ec4899); color:#fff; padding:0.2rem 0.65rem; border-radius:9999px; font-weight:700; letter-spacing:0.05em;">ElevenLabs</span>
+          <span style="font-size:0.8rem; color:#e2e8f0; font-weight:600;">Aria IA</span>
+        </div>
+        <button class="btn-close-modal" id="btn-close-eleven-panel" style="width:26px; height:26px; font-size:1rem;">&times;</button>
+      </div>
+
+      <!-- Avatar Aria grande y centrado -->
+      <div style="display:flex; justify-content:center; margin-bottom:1.5rem;">
+        <div class="aria-avatar-large" id="aria-avatar-large">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+            <defs>
+              <linearGradient id="bg-aria2" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#1e1b4b"/>
+                <stop offset="100%" style="stop-color:#0c4a6e"/>
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="50" fill="url(#bg-aria2)"/>
+            <ellipse cx="50" cy="87" rx="28" ry="18" fill="#312e81"/>
+            <ellipse cx="50" cy="77" rx="22" ry="12" fill="#3730a3"/>
+            <rect x="44" y="63" width="12" height="10" rx="4" fill="#fbbf9a"/>
+            <ellipse cx="50" cy="53" rx="16" ry="18" fill="#fbbf9a"/>
+            <ellipse cx="50" cy="36" rx="16" ry="10" fill="#1c1917"/>
+            <ellipse cx="38" cy="44" rx="5" ry="10" fill="#1c1917"/>
+            <ellipse cx="62" cy="44" rx="5" ry="10" fill="#1c1917"/>
+            <rect x="34" y="34" width="32" height="8" fill="#1c1917" rx="4"/>
+            <ellipse cx="43" cy="52" rx="5" ry="5.5" fill="white"/>
+            <ellipse cx="57" cy="52" rx="5" ry="5.5" fill="white"/>
+            <circle cx="43" cy="52" r="3" fill="#1e293b"/>
+            <circle cx="57" cy="52" r="3" fill="#1e293b"/>
+            <circle cx="44" cy="51" r="1" fill="white"/>
+            <circle cx="58" cy="51" r="1" fill="white"/>
+            <rect x="36" y="47.5" width="14" height="10" rx="3" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+            <rect x="50" y="47.5" width="14" height="10" rx="3" fill="none" stroke="#38bdf8" stroke-width="1.8"/>
+            <line x1="36" y1="52.5" x2="33" y2="52.5" stroke="#38bdf8" stroke-width="1.5"/>
+            <line x1="64" y1="52.5" x2="67" y2="52.5" stroke="#38bdf8" stroke-width="1.5"/>
+            <path d="M 45 60 Q 50 64 55 60" stroke="#c97c5a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Estado de la llamada -->
+      <div id="aria-call-status" style="text-align:center; font-size:0.78rem; color:#64748b; margin-bottom:1.5rem; height:1.2rem; transition:all 0.3s;">
+        Toca el micrófono para comenzar
+      </div>
+
+      <!-- ORBE DE MICRÓFONO — BOTÓN PRINCIPAL -->
+      <div style="display:flex; justify-content:center; margin-bottom:1.5rem;">
+        <button class="aria-mic-orb" id="aria-mic-btn" onclick="toggleAriaCall()" title="Iniciar conversación con Aria">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Ondas de voz (visibles solo durante llamada) -->
+      <div class="voice-wave aria-call-waves" id="aria-call-waves">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+    </div>
+
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- PANEL OpenAI — Voz con GPT-4o-mini             -->
+    <!-- ══════════════════════════════════════════════ -->
+    <div class="voice-floating-panel" id="global-voice-panel">
+      <div class="voice-panel-header">
+        <div style="display:flex; align-items:center; gap:0.65rem;">
+          <div style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#6366f1,#38bdf8); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </div>
+          <div>
+            <h4 style="margin:0; font-size:0.92rem; font-weight:700; color:#fff;">Asistente de Voz IA</h4>
+            <small style="color:#38bdf8; font-size:0.72rem;">GPT-4o-mini &bull; Cátedra Mtro. Luis Tercero</small>
+          </div>
+        </div>
+        <button class="btn-close-modal" id="btn-close-voice-panel" style="width:28px; height:28px; font-size:1rem;">&times;</button>
+      </div>
+      <div class="voice-wave" id="global-voice-wave">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+      <div class="voice-live-dialog" id="global-voice-dialog">
+        Presiona el micrófono y pregunta sobre cualquier materia, investigación doctoral, tecnología o agente de la plataforma...
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.75rem;">
+        <button onclick="quickVoiceQuery('¿Cuáles son las materias que imparte el Mtro. Luis?')" style="background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); color:#a5b4fc; padding:0.3rem 0.7rem; border-radius:9999px; font-size:0.72rem; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(99,102,241,0.3)'" onmouseout="this.style.background='rgba(99,102,241,0.15)'">📚 Materias</button>
+        <button onclick="quickVoiceQuery('¿De qué trata la tesis doctoral del Mtro. Luis Tercero?')" style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); color:#6ee7b7; padding:0.3rem 0.7rem; border-radius:9999px; font-size:0.72rem; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(16,185,129,0.3)'" onmouseout="this.style.background='rgba(16,185,129,0.15)'">🔬 Tesis Doctoral</button>
+        <button onclick="quickVoiceQuery('¿Qué son los Agentes de IA con MoE?')" style="background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); color:#fcd34d; padding:0.3rem 0.7rem; border-radius:9999px; font-size:0.72rem; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(245,158,11,0.3)'" onmouseout="this.style.background='rgba(245,158,11,0.15)'">🤖 Agentes MoE</button>
+        <button onclick="quickVoiceQuery('¿Qué es RAG y para qué sirve?')" style="background:rgba(236,72,153,0.15); border:1px solid rgba(236,72,153,0.3); color:#f9a8d4; padding:0.3rem 0.7rem; border-radius:9999px; font-size:0.72rem; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(236,72,153,0.3)'" onmouseout="this.style.background='rgba(236,72,153,0.15)'">💡 ¿Qué es RAG?</button>
+      </div>
+      <button id="btn-panel-listen" onclick="startGlobalVoiceListening()" style="width:100%; margin-top:1rem; background:linear-gradient(135deg,#6366f1,#38bdf8); border:none; color:#fff; padding:0.75rem; border-radius:10px; font-weight:700; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0.5rem; transition:opacity 0.2s;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        🎙️ Hablar con la IA de la Plataforma
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════════════ -->
+    <!-- BOTONES FLOTANTES APILADOS                     -->
+    <!-- ══════════════════════════════════════════════ -->
+
+    <!-- Botón ARIA ElevenLabs (arriba) -->
+    <button class="btn-floating-eleven" id="eleven-voice-btn" title="Aria — Asistente Virtual ElevenLabs">
+      <div class="eleven-btn-avatar">
+        <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" width="26" height="26">
+          <defs><linearGradient id="btnbg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#1e1b4b"/><stop offset="100%" style="stop-color:#0c4a6e"/></linearGradient></defs>
+          <circle cx="20" cy="20" r="20" fill="url(#btnbg)"/>
+          <ellipse cx="20" cy="22" rx="7" ry="8" fill="#fbbf9a"/>
+          <ellipse cx="20" cy="14" rx="7" ry="5" fill="#1c1917"/>
+          <rect x="13" y="19" width="6" height="4.5" rx="1.5" fill="none" stroke="#38bdf8" stroke-width="1"/>
+          <rect x="21" y="19" width="6" height="4.5" rx="1.5" fill="none" stroke="#38bdf8" stroke-width="1"/>
+          <path d="M 17 25.5 Q 20 27.5 23 25.5" stroke="#c97c5a" stroke-width="1" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div style="display:flex; flex-direction:column; align-items:flex-start; line-height:1.25;">
+        <span style="font-size:0.85rem; font-weight:800; letter-spacing:0.01em;">Aria IA</span>
+        <span style="font-size:0.62rem; opacity:0.85; font-weight:500;">ElevenLabs</span>
+      </div>
+    </button>
+
+    <!-- Botón OpenAI Voz (abajo) -->
+    <button class="btn-floating-voice" id="global-voice-btn" title="Asistente de Voz Global GPT-4o-mini">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      <span>Voz IA</span>
+    </button>
+  </div>
+
+  <!-- Script Principal -->
+  <script src="app.js"></script>
+</body>
+</html>
