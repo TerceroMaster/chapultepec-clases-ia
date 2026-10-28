@@ -51,7 +51,7 @@ const ACADEMIC_PROGRAMS = [
     badgeClass: 'badge-esp',
     title: 'IA Generativa y sus Aplicaciones',
     subtitle: 'Impulsa la transformación digital y modelos autónomos',
-    coverImg: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80',
+    coverImg: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=800&q=80',
     description: 'Inmersión profunda en arquitecturas Transformer, Fine-Tuning de LLMs, arquitecturas RAG (Retrieval-Augmented Generation), marcos de seguridad ISO 42001 y orquestación de agentes multi-perfil.',
     interactiveLab: 'laboratorio-rag',
     labTitle: 'Playground de Agentes Autónomos & RAG Sandbox',
