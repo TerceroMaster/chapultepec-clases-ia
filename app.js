@@ -6,9 +6,9 @@
 // Estado global de la aplicación
 const AppState = {
   currentTab: 'inicio',
-  // API Key cargada de forma segura desde localStorage o modal de configuración
-  apiKeyOpenAI: localStorage.getItem('nexus_openai_key') || '',
-  elevenLabsAgentId: localStorage.getItem('nexus_eleven_agent') || '',
+  // API Key cargada de forma segura desde env.js (Dokploy), localStorage o modal de configuración
+  apiKeyOpenAI: (window.__ENV__ && window.__ENV__.OPENAI_API_KEY) || localStorage.getItem('nexus_openai_key') || '',
+  elevenLabsAgentId: (window.__ENV__ && window.__ENV__.ELEVENLABS_AGENT_ID) || localStorage.getItem('nexus_eleven_agent') || 'agent_7001m60bmxq9f65t5djwwcx49cq3',
   activeFilter: 'todos',
   isVoiceRecording: false,
   isGlobalVoiceActive: false,
@@ -1517,7 +1517,7 @@ async function startAriaCall() {
     }
 
     ariaConversation = await Conversation.startSession({
-      agentId: 'agent_7001m60bmxq9f65t5djwwcx49cq3',
+      agentId: AppState.elevenLabsAgentId || 'agent_7001m60bmxq9f65t5djwwcx49cq3',
       onConnect: () => {
         isAriaCallActive = true;
         setAriaOrbState('listening');
