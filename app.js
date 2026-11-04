@@ -1213,10 +1213,36 @@ REGLAS DE FORMATO ESTRICTAS:
 }
 
 function generateSmartLocalReply(text) {
-  const lower = text.toLowerCase();
+  const lower = (text || '').toLowerCase();
   let reply = '';
   
-  if (lower.includes('enfermería') || lower.includes('salud') || lower.includes('clara') || lower.includes('pae')) {
+  if (lower.includes('rag') || lower.includes('recuperación') || lower.includes('vectorial') || lower.includes('graphrag')) {
+    reply = `Hola. **RAG (Generación Aumentada por Recuperación)** es una arquitectura clave enseñada en la cátedra:
+
+1. **Conexión a Bases Vectoriales**: Conecta modelos de lenguaje a bases como Supabase (pgvector) y grafos de conocimiento en Neo4j (GraphRAG).
+2. **Mitigación de Alucinaciones**: El LLM solo responde basándose en fragmentos documentales institucionales recuperados en tiempo real.
+3. **Privacidad y Control**: Permite consultar normativas, historiales y expedientes con permisos estrictos de acceso.
+
+💡 Recomendación: Revisa la sección de Tecnologías para ver el pipeline visual en Langflow y n8n.`;
+  } else if (lower.includes('moe') || lower.includes('mixture') || lower.includes('enjambre') || lower.includes('swarm')) {
+    reply = `Hola. Las arquitecturas **MoE (Mixture of Experts)** y sistemas multiagente son el núcleo de investigación del profesor:
+
+1. **Especialización Dinámica**: Múltiples agentes especializados son activados según el contexto por un enrutador inteligente.
+2. **Orquestación con LangGraph-Swarm**: Coordinación de flujos cíclicos y estados compartidos entre agentes autónomos.
+3. **Observabilidad con LangSmith**: Trazabilidad completa de tokens, latencia y evaluación de guardrails semánticos.
+
+💡 Recomendación: Consulta la sección de Artículos para revisar las publicaciones sobre sistemas MoE.`;
+  } else if (lower.includes('hola') || lower.includes('buenos') || lower.includes('buenas') || lower.includes('cómo estás') || lower.includes('saludos')) {
+    reply = `¡Hola! Te doy la bienvenida al portal académico de Inteligencia Artificial del **Mtro. Luis Ramón Tercero Martínez González**.
+
+Puedo ayudarte con información sobre:
+1. **Licenciatura en Contaduría y Finanzas**: Conciliación con GatedTabTransformers y auditoría fiscal.
+2. **Especialidad en Enfermería**: Automatización PAE con Clara IA y LLMs médicos.
+3. **Maestría en Administración Hospitalaria**: Optimización predictiva de camas y quirófanos.
+4. **Doctorado e Investigación**: Tesis en agentes MoE para seguimiento farmacoterapéutico.
+
+💡 Recomendación: Haz una pregunta sobre cualquier materia o prueba el asistente de voz.`;
+  } else if (lower.includes('enfermería') || lower.includes('salud') || lower.includes('clara') || lower.includes('pae')) {
     reply = `Hola. Estos son los pilares clave de la **Especialidad de IA Aplicada a Enfermería** en la cátedra del Mtro. Luis Tercero:
 
 1. **Clara IA & Automatización PAE**: Sistema inteligente que guía la valoración, diagnóstico, planeación, ejecución y evaluación conforme a taxonomías NANDA/NIC/NOC, reduciendo hasta 80% la carga administrativa.
@@ -1265,6 +1291,7 @@ function generateSmartLocalReply(text) {
   }
   
   appendMessage(formatChatReply(reply), 'bot');
+  return reply;
 }
 
 function escapeHTML(str) {
@@ -1399,38 +1426,89 @@ Conoces al 100% todos los módulos, materias y proyectos de la plataforma:
 Instrucción de Respuesta: Responde en español con tono femenino, profesional, pedagógico y muy conciso (máximo 2 a 3 oraciones), ideal para ser escuchado por síntesis de voz.
 `;
 
+function generateVoiceAgentReply(text) {
+  if (!text) return "Hola. Estoy a tu disposición para responder cualquier duda sobre la cátedra de Inteligencia Artificial del Maestro Luis Tercero.";
+  const lower = text.toLowerCase();
+
+  if (lower.includes('rag') || lower.includes('recuperación') || lower.includes('retrieval') || lower.includes('vectorial') || lower.includes('graphrag')) {
+    return "RAG, o Generación Aumentada por Recuperación, es una técnica que conecta modelos de lenguaje con bases de datos vectoriales y fuentes externas como Supabase y Neo4j. Permite que la IA responda con datos institucionales precisos y actualizados en tiempo real, eliminando alucinaciones.";
+  }
+
+  if (lower.includes('tesis') || lower.includes('doctoral') || lower.includes('doctorado') || lower.includes('nefropatía') || lower.includes('farmaco')) {
+    return "La investigación doctoral del Maestro Luis Ramón Tercero se centra en sistemas multiagente con Mixture of Experts para el seguimiento farmacoterapéutico en Tabasco, integrando predicción de nefropatía diabética mediante arquitecturas Transformer y modelos clínicos seguros que operan localmente.";
+  }
+
+  if (lower.includes('moe') || lower.includes('mixture') || lower.includes('expert') || lower.includes('enjambre') || lower.includes('swarm')) {
+    return "Una arquitectura MoE, o Mezcla de Expertos, divide problemas complejos entre múltiples submodelos especializados mediante un enrutador inteligente. En clase, los estudiantes aprenden a implementarlos con LangGraph, LangSmith y LangGraph-Swarm para optimizar cómputo y exactitud en entornos reales.";
+  }
+
+  if (lower.includes('materia') || lower.includes('asignatura') || lower.includes('curso') || lower.includes('clase') || lower.includes('oferta') || lower.includes('plan')) {
+    return "El Maestro Luis Tercero imparte asignaturas en todos los niveles: Licenciatura en Contaduría y Finanzas con IA, Especialidad de IA en Enfermería con el asistente Clara IA, Maestría en Administración Hospitalaria y seminarios de investigación doctoral en Deep Learning y Transformers.";
+  }
+
+  if (lower.includes('hola') || lower.includes('buenos') || lower.includes('buenas') || lower.includes('cómo estás') || lower.includes('saludos') || lower.includes('quién eres')) {
+    return "¡Hola! Te doy la bienvenida a la cátedra de Inteligencia Artificial del Maestro Luis Ramón Tercero Martínez. Puedo responder tus preguntas sobre las materias, investigación doctoral en agentes MoE, simulación clínica o gobernanza con ISO 42001. ¿Qué tema te gustaría explorar?";
+  }
+
+  if (lower.includes('enfermería') || lower.includes('salud') || lower.includes('clara') || lower.includes('pae') || lower.includes('nanda') || lower.includes('clínic')) {
+    return "En la Especialidad de Enfermería enseñamos automatización del Proceso de Atención de Enfermería con Clara IA, integrando taxonomías NANDA, NIC y NOC, triaje predictivo y resguardo ético de expedientes clínicos con modelos locales sin conexión obligatoria a la nube.";
+  }
+
+  if (lower.includes('contaduría') || lower.includes('finanzas') || lower.includes('sat') || lower.includes('fiscal') || lower.includes('tabtransformer')) {
+    return "En la Licenciatura de Finanzas aplicamos redes GatedTabTransformer para conciliación masiva, algoritmos de detección de anomalías fiscales y series temporales para proyección de liquidez empresarial y auditoría automatizada.";
+  }
+
+  if (lower.includes('hospital') || lower.includes('administración') || lower.includes('quirófano') || lower.includes('cama')) {
+    return "En la Maestría de Administración Hospitalaria abordamos modelos predictivos para demanda en urgencias, optimización algorítmica de quirófanos y camas, y gobernanza de datos bajo estándares internacionales de salud.";
+  }
+
+  if (lower.includes('ética') || lower.includes('jailbreak') || lower.includes('seguridad') || lower.includes('iso') || lower.includes('42001') || lower.includes('red team')) {
+    return "La cátedra incluye formación rigurosa en mitigación de Jailbreaking, defensa contra inyecciones de prompts indirectas, pruebas de Red Teaming y auditoría de sistemas de gestión de inteligencia artificial alineados a la norma internacional ISO 42001.";
+  }
+
+  if (lower.includes('tecnología') || lower.includes('herramienta') || lower.includes('n8n') || lower.includes('langchain') || lower.includes('langgraph') || lower.includes('python')) {
+    return "El ecosistema técnico de la cátedra incluye n8n, Make, ElevenLabs, OpenAI API, LangChain, LangGraph, LangSmith, Langflow, Python y Supabase con pgvector para el desarrollo de flujos y agentes autónomos de nivel industrial.";
+  }
+
+  return "Con gusto te oriento sobre la cátedra del Maestro Luis Ramón Tercero. Puedes preguntarme acerca de las asignaturas de licenciatura y posgrado, su tesis doctoral en agentes MoE, simulación clínica o metodologías de seguridad con ISO 42001.";
+}
+
 async function askOpenAIGlobalAgent(userQuery) {
-  if (!AppState.apiKeyOpenAI) {
-    return generateSmartLocalReply(userQuery);
-  }
-  
-  try {
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${AppState.apiKeyOpenAI}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          { role: 'system', content: PLATFORM_KNOWLEDGE_PROMPT },
-          { role: 'user', content: userQuery }
-        ],
-        temperature: 0.7,
-        max_tokens: 150
-      })
-    });
-    
-    const data = await res.json();
-    if (data.choices && data.choices[0]) {
-      return data.choices[0].message.content;
+  if (AppState.apiKeyOpenAI) {
+    try {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${AppState.apiKeyOpenAI}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-4o-mini',
+          messages: [
+            { role: 'system', content: PLATFORM_KNOWLEDGE_PROMPT },
+            { role: 'user', content: userQuery }
+          ],
+          temperature: 0.7,
+          max_tokens: 180
+        })
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data.choices && data.choices[0] && data.choices[0].message) {
+          const content = data.choices[0].message.content.trim();
+          if (content) return content;
+        }
+      } else {
+        console.warn('OpenAI API returned status:', res.status);
+      }
+    } catch (err) {
+      console.error('OpenAI API Error:', err);
     }
-  } catch (err) {
-    console.error('OpenAI API Error:', err);
   }
   
-  return generateSmartLocalReply(userQuery);
+  // Motor de respuestas inteligentes precargadas (garantiza respuesta fluida para voz y texto sin fallos)
+  return generateVoiceAgentReply(userQuery);
 }
 
 // ═══════════════════════════════════════════════
@@ -1801,7 +1879,7 @@ window.startGlobalVoiceListening = startGlobalVoiceListening;
 window.stopGlobalVoiceListening = stopGlobalVoiceListening;
 
 function speakResponseFemale(text) {
-  if (!window.speechSynthesis) return;
+  if (!window.speechSynthesis || !text) return;
   window.speechSynthesis.cancel();
   
   const utter = new SpeechSynthesisUtterance(text);
