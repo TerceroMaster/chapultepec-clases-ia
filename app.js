@@ -6,9 +6,9 @@
 // Estado global de la aplicación
 const AppState = {
   currentTab: 'inicio',
-  // API Key cargada de forma segura desde env.js (Dokploy), localStorage o modal de configuración
-  apiKeyOpenAI: (window.__ENV__ && window.__ENV__.OPENAI_API_KEY) || localStorage.getItem('nexus_openai_key') || '',
-  elevenLabsAgentId: (window.__ENV__ && window.__ENV__.ELEVENLABS_AGENT_ID) || localStorage.getItem('nexus_eleven_agent') || 'agent_7001m60bmxq9f65t5djwwcx49cq3',
+  // API Key cargada de forma segura desde env.js (Dokploy / variables de entorno)
+  apiKeyOpenAI: (window.__ENV__ && window.__ENV__.OPENAI_API_KEY ? window.__ENV__.OPENAI_API_KEY.trim() : ''),
+  elevenLabsAgentId: (window.__ENV__ && window.__ENV__.ELEVENLABS_AGENT_ID ? window.__ENV__.ELEVENLABS_AGENT_ID.trim() : ''),
   activeFilter: 'todos',
   isVoiceRecording: false,
   isGlobalVoiceActive: false,
@@ -404,7 +404,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupSimulators();
   setupChat();
   setupVoiceAgent();
-  setupKeysModal();
   setupGlobalVoiceWidget();
   setupElevenLabsAriaWidget();
 });
@@ -1194,10 +1193,20 @@ REGLAS DE FORMATO ESTRICTAS:
         })
       });
       
+      if (!response.ok) {
+        console.warn('OpenAI Chat API returned status:', response.status);
+        removeMessage(loadingId);
+        generateSmartLocalReply(text);
+        return;
+      }
       const data = await response.json();
-      const reply = data.choices && data.choices[0] ? data.choices[0].message.content : 'Error al procesar con OpenAI. Verifica tu API Key.';
+      const reply = data.choices && data.choices[0] ? data.choices[0].message.content : null;
       removeMessage(loadingId);
-      appendMessage(formatChatReply(reply), 'bot');
+      if (reply) {
+        appendMessage(formatChatReply(reply), 'bot');
+      } else {
+        generateSmartLocalReply(text);
+      }
     } catch (err) {
       removeMessage(loadingId);
       appendMessage(formatChatReply('Nota: Se produjo un inconveniente de red con el endpoint de OpenAI. Mostrando respuesta optimizada del repositorio académico local:'), 'bot');
@@ -1604,7 +1613,7 @@ async function startAriaCall() {
     }
 
     ariaConversation = await Conversation.startSession({
-      agentId: AppState.elevenLabsAgentId || 'agent_7001m60bmxq9f65t5djwwcx49cq3',
+      agentId: AppState.elevenLabsAgentId,
       onConnect: () => {
         isAriaCallActive = true;
         setAriaOrbState('listening');
@@ -1980,36 +1989,3 @@ function stopVoiceRecording() {
   }
 }
 
-// SETUP MODAL DE CONFIGURACIÓN DE API KEYS
-function setupKeysModal() {
-  const btn = document.getElementById('btn-open-config');
-  const modal = document.getElementById('config-modal');
-  const closeBtn = document.getElementById('btn-close-config');
-  const saveBtn = document.getElementById('btn-save-keys');
-  
-  const openAiInput = document.getElementById('cfg-openai-key');
-  const elevenInput = document.getElementById('cfg-eleven-agent');
-  
-  if (openAiInput) openAiInput.value = AppState.apiKeyOpenAI;
-  if (elevenInput) elevenInput.value = AppState.elevenLabsAgentId;
-  
-  if (btn && modal) {
-    btn.addEventListener('click', () => modal.classList.add('active'));
-  }
-  if (closeBtn && modal) {
-    closeBtn.addEventListener('click', () => {
-      modal.classList.remove('active');
-      document.body.classList.remove('modal-open');
-    });
-  }
-  if (saveBtn) {
-    saveBtn.addEventListener('click', () => {
-      AppState.apiKeyOpenAI = openAiInput.value.trim();
-      AppState.elevenLabsAgentId = elevenInput.value.trim();
-      localStorage.setItem('nexus_openai_key', AppState.apiKeyOpenAI);
-      localStorage.setItem('nexus_eleven_agent', AppState.elevenLabsAgentId);
-      alert('¡Configuración guardada exitosamente! Ya puedes interactuar en vivo.');
-      modal.classList.remove('active');
-    });
-  }
-}

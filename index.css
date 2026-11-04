@@ -320,24 +320,6 @@ body {
   line-height: 1.45;
 }
 
-.btn-open-keys {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border-subtle);
-  color: var(--text-muted);
-  padding: 0.55rem 1rem;
-  border-radius: var(--radius-full);
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.btn-open-keys:hover {
-  border-color: var(--brand-cyan);
-  color: #fff;
-}
 
 /* CONTAINER & SECTIONS */
 .container {

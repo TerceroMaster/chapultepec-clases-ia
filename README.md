@@ -6,9 +6,11 @@
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
 ![JavaScript ES6+](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
-![OpenAI GPT--4o--mini](https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=flat&logo=openai&logoColor=white)
+![OpenAI GPT-4o-mini](https://img.shields.io/badge/OpenAI-GPT--4o--mini-412991?style=flat&logo=openai&logoColor=white)
 ![ElevenLabs](https://img.shields.io/badge/ElevenLabs-Conversational_AI-black?style=flat)
 ![LangChain](https://img.shields.io/badge/Orquestación-LangChain_%2F_LangGraph-1C3C3C?style=flat)
+![Docker](https://img.shields.io/badge/Docker-Nginx_Alpine-2496ED?style=flat&logo=docker&logoColor=white)
+![Dokploy](https://img.shields.io/badge/Deploy-Dokploy-5C4EE5?style=flat)
 
 ---
 
@@ -16,7 +18,7 @@
 
 Plataforma interactiva de divulgación, docencia y experimentación en **Inteligencia Artificial de Vanguardia**, diseñada para estudiantes de **Licenciatura, Especialidad, Maestría y Posgrado/Doctorado**.
 
-Integra demostradores en tiempo real, simuladores algorítmicos aplicados a la medicina y las finanzas, un glosario interactivo de **Conceptos de IA con síntesis de voz femenina**, y dos agentes conversacionales de voz y texto con **OpenAI GPT-4o-mini** y **ElevenLabs**.
+Integra demostradores en tiempo real, simuladores algorítmicos aplicados a la medicina y las finanzas, un glosario interactivo de **Conceptos de IA con síntesis de voz femenina**, y dos agentes conversacionales de voz y texto con **OpenAI GPT-4o-mini** y **ElevenLabs Conversational AI**.
 
 ---
 
@@ -51,9 +53,16 @@ Integra demostradores en tiempo real, simuladores algorítmicos aplicados a la m
 
 | Agente | Tecnología | Funcionalidad |
 | :--- | :--- | :--- |
-| **Aria IA** | **ElevenLabs Conversational AI** | Agente de voz nativa pura con avatar interactivo femenino y llamada de audio full-duplex en tiempo real. |
-| **Voz IA Global** | **Web Speech API & GPT-4o-mini** | Reconocimiento por micrófono y síntesis vocal en español mexicano (es-MX) para consultas de la cátedra. |
-| **Tutor Académico** | **OpenAI GPT-4o-mini** | Consola de chat pedagógica con respuestas estructuradas en listas numeradas, botones de copiado y lectura de voz. |
+| **Aria IA** | **ElevenLabs Conversational AI** | Agente de voz nativa pura con avatar interactivo y llamada de audio full-duplex en tiempo real. Se activa desde el botón flotante derecho. |
+| **Voz IA** | **Web Speech API + OpenAI GPT-4o-mini** | Reconocimiento por micrófono y síntesis vocal en español (es-MX). Si OpenAI no está disponible, usa el motor de respuestas precargadas. |
+| **Tutor Académico** | **OpenAI GPT-4o-mini + Motor Local** | Chat pedagógico con respuestas estructuradas. Fallback automático a base de conocimiento precargada si la API key no está configurada o falla. |
+
+### 🖥️ Modo Inmersivo Fullscreen
+Al hacer clic en cualquiera de los 2 botones flotantes de agentes (lado derecho de la pantalla):
+- El panel se abre en **pantalla completa (100vw × 100vh)** tanto en móvil como en desktop.
+- Incluye un botón `✕` prominente en la esquina superior derecha para salir.
+- Compatible con la tecla `Escape` y clic en el backdrop oscuro para cerrar.
+- En móviles `< 768px` cubre el 100% del viewport sin scroll ni desbordamientos.
 
 ---
 
@@ -77,15 +86,18 @@ Colección de 21 tarjetas pedagógicas clasificadas en 3 niveles de dominio con 
 
 * **Frontend:** HTML5 Semántico, CSS3 Vanilla (Glassmorphism, variables CSS, gradientes HSL y microanimaciones de audio).
 * **Responsive Design:** 100% adaptable para Teléfonos Móviles, Tabletas, Computadoras de Escritorio y Pantallas 4K.
-* **Audio & IA:** 
-  * SDK `@11labs/client` via ESM para telefonía conversacional.
+* **Audio & IA:**
+  * SDK `@11labs/client` via ESM para telefonía conversacional full-duplex.
   * Web Speech API (`SpeechRecognition` y `SpeechSynthesis`).
-  * OpenAI Chat Completions API (`gpt-4o-mini`).
-* **Seguridad:** Aislamiento de llaves en variables de entorno local (`.env`) y `localStorage`, sin exposición de credenciales en el repositorio.
+  * OpenAI Chat Completions API (`gpt-4o-mini`) con fallback automático a motor local.
+* **Infraestructura:** Docker (Nginx Alpine), desplegado en Dokploy con variables de entorno en tiempo de ejecución.
+* **Seguridad:** Las credenciales se inyectan exclusivamente mediante variables de entorno del servidor. **No hay credenciales en el código fuente ni en el repositorio.**
 
 ---
 
 ## 🛠️ Instalación y Uso Local
+
+### Desarrollo local (sin Docker)
 
 1. **Clonar el repositorio:**
    ```bash
@@ -93,16 +105,36 @@ Colección de 21 tarjetas pedagógicas clasificadas en 3 niveles de dominio con 
    cd chapultepec-clases-ia
    ```
 
-2. **Abrir en el navegador:**
-   * Puedes usar cualquier servidor local ligero, por ejemplo con Node.js:
-     ```bash
-     npx serve -l 3000
-     ```
-   * O con la extensión **Live Server** de VS Code / Antigravity IDE.
+2. **Iniciar servidor local:**
+   ```bash
+   # Con Python (sin instalación extra)
+   python -m http.server 8080
+   # O con Node.js
+   npx serve -l 3000
+   ```
 
-3. **Configurar API Keys (Opcional para modo live):**
-   * Haz clic en el botón de engranaje ⚙️ de la barra de navegación para ingresar tu propia OpenAI API Key o ElevenLabs Agent ID.
-   * La plataforma cuenta con un repositorio inteligente precargado para funcionar sin llaves externas.
+3. La plataforma funciona completamente sin API keys gracias al **motor de respuestas precargadas**. Los agentes de IA muestran respuestas pedagógicas inteligentes sobre la cátedra.
+
+### Producción con Docker / Dokploy
+
+La plataforma usa un contenedor **Nginx Alpine** con un script de entrada (`docker-entrypoint.sh`) que inyecta las variables de entorno en `env.js` en tiempo de ejecución:
+
+```sh
+# docker-entrypoint.sh (simplificado)
+window.__ENV__ = {
+  OPENAI_API_KEY: "${OPENAI_API_KEY}",
+  ELEVENLABS_AGENT_ID: "${ELEVENLABS_AGENT_ID}"
+};
+```
+
+**Variables de entorno requeridas en Dokploy (sección Environment):**
+
+| Variable | Descripción |
+| :--- | :--- |
+| `OPENAI_API_KEY` | API Key de OpenAI para el Tutor GPT-4o-mini y Voz IA |
+| `ELEVENLABS_AGENT_ID` | ID del agente conversacional de ElevenLabs (Aria IA) |
+
+> **Nota de seguridad:** Nunca agregues estas credenciales al código fuente. Se configuran únicamente en el panel de Dokploy → Environment Settings.
 
 ---
 
