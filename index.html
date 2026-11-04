@@ -755,27 +755,25 @@
 
 
   <!-- ================================================================ -->
-  <!-- WIDGET GLOBAL DE VOZ DE LA PLATAFORMA - Persiste en todas las vistas -->
+  <!-- MODALES INMERSIVOS FULLSCREEN DE AGENTES DE IA (ARIA & VOZ IA)  -->
   <!-- ================================================================ -->
-  <div class="global-voice-widget" id="global-voice-widget-root">
 
-    <!-- ══════════════════════════════════════════════ -->
-    <!-- PANEL ARIA — ElevenLabs Voz Nativa Pura        -->
-    <!-- ══════════════════════════════════════════════ -->
-    <div class="voice-floating-panel eleven-panel aria-call-panel" id="eleven-voice-panel">
-      <!-- Header mínimo -->
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
-        <div style="display:flex; align-items:center; gap:0.5rem;">
-          <span style="font-size:0.72rem; background:linear-gradient(90deg,#7c3aed,#ec4899); color:#fff; padding:0.2rem 0.65rem; border-radius:9999px; font-weight:700; letter-spacing:0.05em;">ElevenLabs</span>
-          <span style="font-size:0.8rem; color:#e2e8f0; font-weight:600;">Aria IA</span>
-        </div>
-        <button class="btn-close-modal" id="btn-close-eleven-panel" style="width:26px; height:26px; font-size:1rem;">&times;</button>
+  <!-- MODAL ARIA — ElevenLabs Voz Nativa Inmersiva -->
+  <div class="voice-floating-panel voice-immersive-modal eleven-panel aria-call-panel" id="eleven-voice-panel" aria-modal="true" role="dialog">
+    <!-- Botón flotante de cierre prominente ('X') -->
+    <button class="btn-immersive-close" id="btn-close-eleven-panel" aria-label="Cerrar modo inmersivo" title="Cerrar">&times;</button>
+
+    <div class="voice-immersive-container">
+      <div class="immersive-header">
+        <span class="immersive-badge eleven-badge">ElevenLabs Conversational AI</span>
+        <h3 class="immersive-title">Aria IA — Agente Vocal</h3>
+        <p class="immersive-subtitle">Cátedra del Mtro. Luis Ramón Tercero Martínez González</p>
       </div>
 
       <!-- Avatar Aria grande y centrado -->
-      <div style="display:flex; justify-content:center; margin-bottom:1.5rem;">
+      <div class="immersive-avatar-wrap">
         <div class="aria-avatar-large" id="aria-avatar-large">
-          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" width="96" height="96">
             <defs>
               <linearGradient id="bg-aria2" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" style="stop-color:#1e1b4b"/>
@@ -807,14 +805,20 @@
       </div>
 
       <!-- Estado de la llamada -->
-      <div id="aria-call-status" style="text-align:center; font-size:0.78rem; color:#64748b; margin-bottom:1.5rem; height:1.2rem; transition:all 0.3s;">
+      <div id="aria-call-status" class="immersive-status-text">
         Toca el micrófono para comenzar
       </div>
 
+      <!-- Ondas de voz (visibles durante llamada) -->
+      <div class="voice-wave aria-call-waves" id="aria-call-waves">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+
       <!-- ORBE DE MICRÓFONO — BOTÓN PRINCIPAL -->
-      <div style="display:flex; justify-content:center; margin-bottom:1.5rem;">
+      <div class="immersive-orb-wrap">
         <button class="aria-mic-orb" id="aria-mic-btn" onclick="toggleAriaCall()" title="Iniciar conversación con Aria">
-          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
             <line x1="12" y1="19" x2="12" y2="23"/>
@@ -823,52 +827,57 @@
         </button>
       </div>
 
-      <!-- Ondas de voz (visibles solo durante llamada) -->
-      <div class="voice-wave aria-call-waves" id="aria-call-waves">
-        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-      </div>
+      <p class="immersive-desc">
+        Interactúa por voz en tiempo real con Aria sobre asignaturas, simulación clínica, arquitecturas MoE y proyectos de IA del campus.
+      </p>
     </div>
+  </div>
 
 
-    <!-- ══════════════════════════════════════════════ -->
-    <!-- PANEL OpenAI — Voz con GPT-4o-mini             -->
-    <!-- ══════════════════════════════════════════════ -->
-    <div class="voice-floating-panel" id="global-voice-panel">
-      <div class="voice-panel-header">
-        <div style="display:flex; align-items:center; gap:0.65rem;">
-          <div style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg,#6366f1,#38bdf8); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-          </div>
-          <div>
-            <h4 style="margin:0; font-size:0.92rem; font-weight:700; color:#fff;">Asistente de Voz IA</h4>
-            <small style="color:#38bdf8; font-size:0.72rem;">GPT-4o-mini &bull; Cátedra Mtro. Luis Tercero</small>
-          </div>
-        </div>
-        <button class="btn-close-modal" id="btn-close-voice-panel" style="width:28px; height:28px; font-size:1rem;">&times;</button>
+  <!-- MODAL OpenAI — Asistente de Voz Inmersivo -->
+  <div class="voice-floating-panel voice-immersive-modal" id="global-voice-panel" aria-modal="true" role="dialog">
+    <!-- Botón flotante de cierre prominente ('X') -->
+    <button class="btn-immersive-close" id="btn-close-voice-panel" aria-label="Cerrar modo inmersivo" title="Cerrar">&times;</button>
+
+    <div class="voice-immersive-container voice-agent-container">
+      <div class="immersive-header">
+        <span class="immersive-badge gpt-badge">OpenAI GPT-4o-mini &bull; Voz Inteligente</span>
+        <h3 class="immersive-title">Asistente de Voz IA</h3>
+        <p class="immersive-subtitle">Cátedra del Mtro. Luis Ramón Tercero Martínez González</p>
       </div>
+
+      <!-- Ondas de voz -->
       <div class="voice-wave" id="global-voice-wave">
         <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
         <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
       </div>
-      <div class="voice-live-dialog" id="global-voice-dialog">
+
+      <!-- Caja de diálogo en vivo -->
+      <div class="voice-live-dialog immersive-dialog" id="global-voice-dialog">
         Presiona el micrófono y pregunta sobre cualquier materia, investigación doctoral, tecnología o agente de la plataforma...
       </div>
-      <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-top:0.75rem;">
-        <button onclick="quickVoiceQuery('¿Cuáles son las materias que imparte el Mtro. Luis?')" style="background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3); color:#a5b4fc; padding:0.3rem 0.7rem; border-radius:9999px; font-size:0.72rem; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(99,102,241,0.3)'" onmouseout="this.style.background='rgba(99,102,241,0.15)'">📚 Materias</button>
-        <button onclick="quickVoiceQuery('¿De qué trata la tesis doctoral del Mtro. Luis Tercero?')" style="background:rgba(16,185,129,0.15); border:1px solid rgba(16,185,129,0.3); color:#6ee7b7; padding:0.3rem 0.7rem; border-radius:9999px; font-size:0.72rem; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(16,185,129,0.3)'" onmouseout="this.style.background='rgba(16,185,129,0.15)'">🔬 Tesis Doctoral</button>
-        <button onclick="quickVoiceQuery('¿Qué son los Agentes de IA con MoE?')" style="background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); color:#fcd34d; padding:0.3rem 0.7rem; border-radius:9999px; font-size:0.72rem; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(245,158,11,0.3)'" onmouseout="this.style.background='rgba(245,158,11,0.15)'">🤖 Agentes MoE</button>
-        <button onclick="quickVoiceQuery('¿Qué es RAG y para qué sirve?')" style="background:rgba(236,72,153,0.15); border:1px solid rgba(236,72,153,0.3); color:#f9a8d4; padding:0.3rem 0.7rem; border-radius:9999px; font-size:0.72rem; cursor:pointer; transition:all 0.2s;" onmouseover="this.style.background='rgba(236,72,153,0.3)'" onmouseout="this.style.background='rgba(236,72,153,0.15)'">💡 ¿Qué es RAG?</button>
+
+      <!-- Sugerencias rápidas -->
+      <div class="immersive-chips-wrap">
+        <button onclick="quickVoiceQuery('¿Cuáles son las materias que imparte el Mtro. Luis?')" class="immersive-chip">📚 Materias</button>
+        <button onclick="quickVoiceQuery('¿De qué trata la tesis doctoral del Mtro. Luis Tercero?')" class="immersive-chip">🔬 Tesis Doctoral</button>
+        <button onclick="quickVoiceQuery('¿Qué son los Agentes de IA con MoE?')" class="immersive-chip">🤖 Agentes MoE</button>
+        <button onclick="quickVoiceQuery('¿Qué es RAG y para qué sirve?')" class="immersive-chip">💡 ¿Qué es RAG?</button>
       </div>
-      <button id="btn-panel-listen" onclick="startGlobalVoiceListening()" style="width:100%; margin-top:0.75rem; background:linear-gradient(135deg,#6366f1,#38bdf8); border:none; color:#fff; padding:0.65rem; border-radius:10px; font-weight:700; font-size:0.88rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:0.5rem; transition:opacity 0.2s;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        🎙️ Hablar con la IA de la Plataforma
+
+      <!-- Botón de acción para hablar -->
+      <button id="btn-panel-listen" onclick="startGlobalVoiceListening()" class="btn-immersive-listen">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        <span>Hablar con la IA de la Plataforma</span>
       </button>
     </div>
+  </div>
 
-    <!-- ══════════════════════════════════════════════ -->
-    <!-- BOTONES FLOTANTES APILADOS                     -->
-    <!-- ══════════════════════════════════════════════ -->
+
+  <!-- ================================================================ -->
+  <!-- CONTENEDOR DE BOTONES FLOTANTES DE AGENTES DE IA                -->
+  <!-- ================================================================ -->
+  <div class="global-voice-widget" id="global-voice-widget-root">
 
     <!-- Botón ARIA ElevenLabs (arriba) -->
     <button class="btn-floating-eleven" id="eleven-voice-btn" title="Aria — Asistente Virtual ElevenLabs">
@@ -896,7 +905,7 @@
     </button>
   </div>
 
-  <!-- Variables de Entorno en Tiempo de Ejecución -->
+    <!-- Variables de Entorno en Tiempo de Ejecución -->
   <script src="env.js"></script>
   <!-- Script Principal -->
   <script src="app.js"></script>

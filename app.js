@@ -523,18 +523,23 @@ function setupNavigation() {
   if (menuTrigger && megaMenu) {
     menuTrigger.addEventListener('click', () => {
       megaMenu.classList.add('active');
+      document.body.classList.add('mega-menu-open');
     });
   }
   
   if (closeMega && megaMenu) {
     closeMega.addEventListener('click', () => {
       megaMenu.classList.remove('active');
+      document.body.classList.remove('mega-menu-open');
     });
   }
   
   if (megaMenu) {
     megaMenu.addEventListener('click', (e) => {
-      if (e.target === megaMenu) megaMenu.classList.remove('active');
+      if (e.target === megaMenu) {
+        megaMenu.classList.remove('active');
+        document.body.classList.remove('mega-menu-open');
+      }
     });
   }
 
@@ -544,7 +549,10 @@ function setupNavigation() {
     btn.addEventListener('click', () => {
       const targetId = btn.getAttribute('data-target');
       switchView(targetId);
-      if (megaMenu) megaMenu.classList.remove('active');
+      if (megaMenu) {
+        megaMenu.classList.remove('active');
+        document.body.classList.remove('mega-menu-open');
+      }
     });
   });
 }
@@ -839,7 +847,7 @@ function openInteractiveLab(progId) {
     `;
   }
   
-  modal.classList.add('active');
+  modal.classList.add('active'); document.body.classList.add('modal-open');
 }
 
 window.runDoctoralMoESim = function() {
@@ -968,7 +976,7 @@ function showNotebookTranscript(id) {
       </ul>
     </div>
   `;
-  modal.classList.add('active');
+  modal.classList.add('active'); document.body.classList.add('modal-open');
 }
 
 // SETUP MODAL
@@ -988,6 +996,7 @@ function setupSimulators() {
 function closeModal() {
   const modal = document.getElementById('lab-modal');
   if (modal) modal.classList.remove('active');
+  document.body.classList.remove('modal-open');
 }
 
 // CHAT EN VIVO - AGENTE DE TEXTO (OpenAI / Demo Inteligente)
@@ -1568,7 +1577,7 @@ window.toggleAriaCall = async function() {
   }
 };
 
-// SETUP WIDGET ARIA — Manejo del panel flotante
+// SETUP WIDGET ARIA — Manejo del modal inmersivo
 function setupElevenLabsAriaWidget() {
   const ariaBtn = document.getElementById('eleven-voice-btn');
   const ariaPanel = document.getElementById('eleven-voice-panel');
@@ -1576,36 +1585,53 @@ function setupElevenLabsAriaWidget() {
   const globalPanel = document.getElementById('global-voice-panel');
   const globalBtn = document.getElementById('global-voice-btn');
 
+  function closeAria() {
+    if (ariaPanel) ariaPanel.classList.remove('active');
+    if (ariaBtn) ariaBtn.classList.remove('active-listening');
+    document.body.classList.remove('immersive-open');
+    if (isAriaCallActive) stopAriaCall();
+  }
+
+  function openAria() {
+    // Cerrar panel de Voz OpenAI si estuviera abierto
+    if (globalPanel) globalPanel.classList.remove('active');
+    if (globalBtn) globalBtn.classList.remove('active-listening');
+    stopGlobalVoiceListening();
+
+    if (ariaPanel) ariaPanel.classList.add('active');
+    if (ariaBtn) ariaBtn.classList.add('active-listening');
+    document.body.classList.add('immersive-open');
+  }
+
   if (ariaBtn && ariaPanel) {
     ariaBtn.addEventListener('click', () => {
       const isOpen = ariaPanel.classList.contains('active');
       if (isOpen) {
-        // Minimizar / Cerrar Aria
-        ariaPanel.classList.remove('active');
-        ariaBtn.classList.remove('active-listening');
-        if (isAriaCallActive) stopAriaCall();
+        closeAria();
       } else {
-        // Abrir Aria y cerrar panel de Voz OpenAI
-        if (globalPanel) globalPanel.classList.remove('active');
-        if (globalBtn) globalBtn.classList.remove('active-listening');
-        stopGlobalVoiceListening();
-
-        ariaPanel.classList.add('active');
-        ariaBtn.classList.add('active-listening');
+        openAria();
       }
     });
   }
 
   if (closePanelBtn && ariaPanel) {
-    closePanelBtn.addEventListener('click', () => {
-      ariaPanel.classList.remove('active');
-      if (ariaBtn) ariaBtn.classList.remove('active-listening');
-      if (isAriaCallActive) stopAriaCall();
+    closePanelBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeAria();
+    });
+  }
+
+  // Cerrar al hacer clic en el backdrop fuera del contenedor central
+  if (ariaPanel) {
+    ariaPanel.addEventListener('click', (e) => {
+      if (e.target === ariaPanel) {
+        closeAria();
+      }
     });
   }
 }
 
-// SETUP DEL AGENTE DE VOZ GLOBAL FLOTANTE (Voz IA)
+// SETUP DEL AGENTE DE VOZ GLOBAL FLOTANTE (Voz IA) — Modal Inmersivo
 function setupGlobalVoiceWidget() {
   const floatBtn = document.getElementById('global-voice-btn');
   const panel = document.getElementById('global-voice-panel');
@@ -1613,11 +1639,28 @@ function setupGlobalVoiceWidget() {
   const ariaPanel = document.getElementById('eleven-voice-panel');
   const ariaBtn = document.getElementById('eleven-voice-btn');
   
+  function closeGlobalVoice() {
+    if (panel) panel.classList.remove('active');
+    if (floatBtn) floatBtn.classList.remove('active-listening');
+    document.body.classList.remove('immersive-open');
+    stopGlobalVoiceListening();
+  }
+
+  function openGlobalVoice() {
+    // Cerrar Aria si estuviera abierto
+    if (ariaPanel) ariaPanel.classList.remove('active');
+    if (ariaBtn) ariaBtn.classList.remove('active-listening');
+    if (isAriaCallActive) stopAriaCall();
+
+    if (panel) panel.classList.add('active');
+    if (floatBtn) floatBtn.classList.add('active-listening');
+    document.body.classList.add('immersive-open');
+  }
+
   if (closePanelBtn && panel) {
-    closePanelBtn.addEventListener('click', () => {
-      panel.classList.remove('active');
-      if (floatBtn) floatBtn.classList.remove('active-listening');
-      stopGlobalVoiceListening();
+    closePanelBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeGlobalVoice();
     });
   }
   
@@ -1625,21 +1668,36 @@ function setupGlobalVoiceWidget() {
     floatBtn.addEventListener('click', () => {
       const isOpen = panel.classList.contains('active');
       if (isOpen) {
-        // Minimizar / Cerrar panel de Voz IA
-        panel.classList.remove('active');
-        floatBtn.classList.remove('active-listening');
-        stopGlobalVoiceListening();
+        closeGlobalVoice();
       } else {
-        // Abrir panel de Voz IA y cerrar Aria si estuviera abierto
-        if (ariaPanel) ariaPanel.classList.remove('active');
-        if (ariaBtn) ariaBtn.classList.remove('active-listening');
-        if (isAriaCallActive) stopAriaCall();
-
-        panel.classList.add('active');
-        floatBtn.classList.add('active-listening');
+        openGlobalVoice();
       }
     });
   }
+
+  // Cerrar al hacer clic en el backdrop fuera del contenedor central
+  if (panel) {
+    panel.addEventListener('click', (e) => {
+      if (e.target === panel) {
+        closeGlobalVoice();
+      }
+    });
+  }
+
+  // Tecla Escape para salir del modo inmersivo de cualquiera de los agentes
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (panel && panel.classList.contains('active')) {
+        closeGlobalVoice();
+      }
+      if (ariaPanel && ariaPanel.classList.contains('active')) {
+        if (ariaPanel) ariaPanel.classList.remove('active');
+        if (ariaBtn) ariaBtn.classList.remove('active-listening');
+        document.body.classList.remove('immersive-open');
+        if (isAriaCallActive) stopAriaCall();
+      }
+    }
+  });
 }
 
 function startGlobalVoiceListening() {
@@ -1649,7 +1707,10 @@ function startGlobalVoiceListening() {
   const dialogBox = document.getElementById('global-voice-dialog');
   const wave = document.getElementById('global-voice-wave');
   
-  if (panel) panel.classList.add('active');
+  if (panel) {
+    panel.classList.add('active');
+    document.body.classList.add('immersive-open');
+  }
   if (floatBtn) floatBtn.classList.add('active-listening');
   if (wave) wave.classList.add('recording');
   if (dialogBox) dialogBox.innerHTML = '<span style="color:#38bdf8;">🎙️ Te escucho... Pregúntame sobre cualquier materia, agente, investigación doctoral o tecnología de la plataforma:</span>';
@@ -1715,7 +1776,10 @@ window.quickVoiceQuery = async function(question) {
   const panel = document.getElementById('global-voice-panel');
   const wave = document.getElementById('global-voice-wave');
   
-  if (panel) panel.classList.add('active');
+  if (panel) {
+    panel.classList.add('active');
+    document.body.classList.add('immersive-open');
+  }
   if (wave) wave.classList.add('recording');
   if (dialogBox) dialogBox.innerHTML = `<div><strong>Pregunta:</strong> "${question}"</div><div style="margin-top:0.4rem; color:#f472b6;"><em>Consultando con OpenAI GPT-4o-mini...</em></div>`;
   
@@ -1855,7 +1919,10 @@ function setupKeysModal() {
     btn.addEventListener('click', () => modal.classList.add('active'));
   }
   if (closeBtn && modal) {
-    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+    });
   }
   if (saveBtn) {
     saveBtn.addEventListener('click', () => {
